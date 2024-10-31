@@ -89,7 +89,6 @@ export default {
       // if it's array then it's special gmmaker input
       if (Array.isArray(encoded)) {
         decoded = BonkUtils.decodeInputsOLD(encoded[0]);
-
         decoded.mouse = {
           pos: [encoded[1], encoded[2]],
           left: (encoded[3] & 0b001) == 0b001,

@@ -24,7 +24,7 @@ export default {
       });
 
       socket.on(7, function(id, packet) {
-        // add gm input data to i if it exists
+          // add gm input data to i if it exists
         if (packet.gm) packet.i = [packet.i, ...packet.gm];
 
         // process new mode coming from host
@@ -299,13 +299,15 @@ export default {
 
     const modeLength = compressedMode.offset + 1;
 
-    for (let i = 0; i < modeLength; i += 256000) {
-      gm.lobby.socket.emit(4, {
-        gmMode: true,
-        initial: initial,
-        finish: i + 256000 > modeLength,
-        data: compressedMode.copy(i, Math.min(i + 256000, compressedMode.buffer.byteLength)).buffer,
-      });
+      for (let i = 0; i < modeLength; i += 128000) {
+          setTimeout(() => {
+              gm.lobby.socket.emit(4, {
+                  gmMode: true,
+                  initial: initial,
+                  finish: i + 128000 > modeLength,
+                  data: compressedMode.copy(i, Math.min(i + 128000, compressedMode.buffer.byteLength)).buffer,
+              });
+          }, Math.floor(i / 256000));
     }
   },
   processNewMode: function(mode) {
